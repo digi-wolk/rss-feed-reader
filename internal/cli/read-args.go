@@ -11,6 +11,7 @@ type Arguments struct {
 	RSSFeed                string
 	OutPutType             string
 	SlackChannel           string
+	HoursBack              int
 }
 
 func ReadCliArguments() Arguments {
@@ -19,6 +20,7 @@ func ReadCliArguments() Arguments {
 	rssFeed := flag.String("rss-feed", "", "RSS feed URL")
 	outPutType := flag.String("output", "json", "Output type: json, text, slack-comment")
 	slackChannel := flag.String("slack-channel", "", "Slack channel to post comments to")
+	hoursBack := flag.Int("hours-back", 0, "Number of hours to look back for new items")
 
 	flag.Parse()
 
@@ -34,6 +36,13 @@ func ReadCliArguments() Arguments {
 	if *outPutType == "slack-comment" && *slackChannel == "" {
 		log.Fatal("Slack channel is required for output type 'slack-comment'")
 	}
+	if *hoursBack < 0 {
+		log.Fatal("Number of hours should be a positive integer")
+	}
+	// Default: look back 24 hours
+	if *hoursBack == 0 {
+		*hoursBack = 24
+	}
 
 	return Arguments{
 		Verbose:                *verbose,
@@ -41,5 +50,6 @@ func ReadCliArguments() Arguments {
 		RSSFeed:                *rssFeed,
 		OutPutType:             *outPutType,
 		SlackChannel:           *slackChannel,
+		HoursBack:              *hoursBack,
 	}
 }

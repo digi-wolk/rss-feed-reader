@@ -14,6 +14,10 @@ Get multiple RSS feeds from a config file:
 ```bash
 go run cmd/read-rss.go -rss-conf=config/rss-feeds.txt
 ```
+Specify how many hours back to look for new items (default is 24 hours)
+```bash
+go run cmd/read-rss.go -rss-feed=https://aws.amazon.com/about-aws/whats-new/recent/feed/ -hours-back=1
+```
 Specify to return text or JSON:
 ```bash
 go run cmd/read-rss.go -rss-feed=xxxx -output=text

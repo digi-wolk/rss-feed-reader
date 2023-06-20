@@ -26,7 +26,7 @@ type Item struct {
 	PubDate     string   `xml:"pubDate"`
 }
 
-func ReadRSSFeed(url string) ([]Item, error) {
+func ReadRSSFeed(url string, hoursBack int) ([]Item, error) {
 	var result []Item
 
 	// Make an HTTP GET request to fetch the RSS feed
@@ -66,8 +66,8 @@ func ReadRSSFeed(url string) ([]Item, error) {
 		// Calculate the difference between the current date and the publication date
 		diff := now.Sub(pubDate)
 
-		// Check if the item was published within the last 2x24 hours
-		if diff < (2 * 24 * time.Hour) {
+		// Check if the item was published within the last x hours
+		if diff < (time.Duration(hoursBack) * time.Hour) {
 			// Append to result
 			result = append(result, item)
 		}

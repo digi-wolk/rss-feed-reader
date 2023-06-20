@@ -29,7 +29,7 @@ func main() {
 		if args.Verbose {
 			log.Printf("Reading RSS feed from: '%s'", url)
 		}
-		items, err := rss.ReadRSSFeed(url)
+		items, err := rss.ReadRSSFeed(url, args.HoursBack)
 		if err != nil {
 			log.Printf("Error reading RSS feed from URL '%s': %s", url, err.Error())
 			continue
