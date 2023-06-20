@@ -1,3 +1,7 @@
+<div align="center">
+<img src="assets/logo/logo.png" width="250">
+</div>
+
 # About
 Reads RSS feeds from config files.
 
