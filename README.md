@@ -28,8 +28,11 @@ Comment on Slack:
 # Slack Token should be set as environment variable
 export SLACK_API_TOKEN=xxxx
 # Slack channel is required if output is set to slack-comment
-go run cmd/read-rss.go -rss-conf=../config/rss-feeds.txt -output=slack-comment -slack-channel=xxxx
+go run cmd/read-rss.go -rss-feed=https://aws.amazon.com/about-aws/whats-new/recent/feed/ -output=slack-comment -slack-channel=xxx
 ```
 
 # Dockerfile
 TBD
+
+# Documentation
+- [Slack](docs/slack.md)

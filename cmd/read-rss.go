@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"github.com/digi-wolk/rss-feed-reader/internal/cli"
+	"github.com/digi-wolk/rss-feed-reader/internal/integrations"
 	"github.com/digi-wolk/rss-feed-reader/internal/output"
 	"github.com/digi-wolk/rss-feed-reader/internal/rss"
 	"log"
@@ -40,7 +41,7 @@ func main() {
 		} else if args.OutPutType == "text" {
 			output.PrintItemsAsText(items)
 		} else if args.OutPutType == "slack-comment" {
-			output.CommentOnSlack(items, args.SlackChannel)
+			integrations.CommentOnSlack(items, args.SlackChannel)
 		} else {
 			log.Printf("Error: Unknown output type '%s'", args.OutPutType)
 		}
