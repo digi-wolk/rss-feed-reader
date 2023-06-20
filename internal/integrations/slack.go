@@ -17,20 +17,25 @@ func CommentOnSlack(items []rss.Item, slackChannel string) {
 	api := slack.New(slackApiToken)
 
 	for _, item := range items {
-		message := buildMessage(item)
+		messageBlocks := buildMessageBlocks(item)
 		// Post the message to the Slack channel
-		_, _, err := api.PostMessage(slackChannel, slack.MsgOptionText(message, false))
+		_, _, err := api.PostMessage(slackChannel, slack.MsgOptionBlocks(messageBlocks...))
 		if err != nil {
 			fmt.Printf("Error posting message to Slack: %s", err.Error())
 		}
 	}
 }
 
-func buildMessage(item rss.Item) string {
-	message := fmt.Sprintf("Title: %s\n", item.Title)
-	message += fmt.Sprintf("Description: %s\n", item.Description)
-	message += fmt.Sprintf("Link: %s\n", item.Link)
-	message += fmt.Sprintf("PubDate: %s\n", item.PubDate)
+func buildMessageBlocks(item rss.Item) []slack.Block {
+	titleBlock := slack.NewTextBlockObject("mrkdwn", fmt.Sprintf("*Title:*\n%s", item.Title), false, false)
+	descriptionBlock := slack.NewTextBlockObject("mrkdwn", fmt.Sprintf("*Description:*\n%s", item.Description), false, false)
+	linkBlock := slack.NewTextBlockObject("mrkdwn", fmt.Sprintf("*Link:*\n%s", item.Link), false, false)
+	pubDateBlock := slack.NewTextBlockObject("mrkdwn", fmt.Sprintf("*PubDate:*\n%s", item.PubDate), false, false)
 
-	return message
+	return []slack.Block{
+		slack.NewSectionBlock(titleBlock, nil, nil),
+		slack.NewSectionBlock(descriptionBlock, nil, nil),
+		slack.NewSectionBlock(linkBlock, nil, nil),
+		slack.NewSectionBlock(pubDateBlock, nil, nil),
+	}
 }
