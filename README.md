@@ -35,8 +35,21 @@ export SLACK_API_TOKEN=xxxx
 go run cmd/read-rss.go -rss-feed=https://aws.amazon.com/about-aws/whats-new/recent/feed/ -output=slack-comment -slack-channel=xxx
 ```
 
-# Dockerfile
-TBD
+# Release a new version
+You can create a release by tagging the version as follows:
+```bash
+# Update the version before running the command
+RELEASE_VERSION="v1.0.0"
+git tag "${RELEASE_VERSION}" -m "Release version ${RELEASE_VERSION}"
+git push origin "${RELEASE_VERSION}"
+```
+The GitHub Action release workflow triggers immediately after the tag is pushed upstream. It will build and publish
+the docker image into DockerHub.
+
+# Docker Hub
+Docker image is available on [Docker Hub](https://hub.docker.com/r/prazian/rss-feed-reader).
+
+You can pull the latest version by running the following command:
 
 # Documentation
 - [Slack](docs/slack.md)
