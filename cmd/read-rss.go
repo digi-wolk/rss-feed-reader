@@ -28,8 +28,12 @@ func main() {
 		// Return JSON or text output based on args.OutPutType
 		if args.OutPutType == "json" {
 			output.PrintItemsAsJSON(items)
-		} else {
+		} else if args.OutPutType == "text" {
 			output.PrintItemsAsText(items)
+		} else if args.OutPutType == "slack-comment" {
+			output.CommentOnSlack(items, args.SlackChannel)
+		} else {
+			log.Printf("Error: Unknown output type '%s'", args.OutPutType)
 		}
 	}
 }
