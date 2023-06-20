@@ -60,6 +60,15 @@ the docker image into DockerHub.
 Docker image is available on [Docker Hub](https://hub.docker.com/r/prazian/rss-feed-reader).
 
 You can pull the latest version by running the following command:
+```bash
+docker pull prazian/rss-feed-reader:latest
+```
+
+You can pull a specific version by running the following command:
+```bash
+docker pull prazian/rss-feed-reader:v1
+```
+
 
 # Documentation
 - [Slack](docs/slack.md)
