@@ -16,7 +16,7 @@ RUN go mod download \
 FROM golang:${GO_VERSION}-alpine
 LABEL maintainer="pooyan.info"
 LABEL description="RSS Feed Reader"
-ARG BIN_NAME=olaudit
+ARG BIN_NAME=rssread
 ENV GO111MODULE on
 
 # Create a non-root user with UID and GID 1000 and home directory /app
