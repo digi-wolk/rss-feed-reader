@@ -10,15 +10,24 @@ import (
 )
 
 func main() {
+	var rssUrls []string
 	args := cli.ReadCliArguments()
-	filePath := args.RSSFeedsConfigFilePath
-	urls, err := readURLsFromFile(filePath)
-	if err != nil {
-		log.Fatalf("Error reading URLs from file: %s", err.Error())
+	if args.RSSFeedsConfigFilePath != "" {
+		urls, err := readURLsFromFile(args.RSSFeedsConfigFilePath)
+		if err != nil {
+			log.Fatalf("Error reading URLs from file: %s", err.Error())
+		}
+		rssUrls = append(rssUrls, urls...)
+	}
+	if args.RSSFeed != "" {
+		rssUrls = append(rssUrls, args.RSSFeed)
 	}
 
 	// For each URL, read the RSS feed and print the titles of the items published within the last month
-	for _, url := range urls {
+	for _, url := range rssUrls {
+		if args.Verbose {
+			log.Printf("Reading RSS feed from: '%s'", url)
+		}
 		items, err := rss.ReadRSSFeed(url)
 		if err != nil {
 			log.Printf("Error reading RSS feed from URL '%s': %s", url, err.Error())
