@@ -1,5 +1,14 @@
 <div align="center">
 <img src="assets/logo/logo-no-border.png" width="250">
+
+[![Test status](https://github.com/digi-wolk/rss-feed-reader/actions/workflows/run-tests.yml/badge.svg?branch=master)](https://github.com/digi-wolk/rss-feed-reader/actions/workflows/run-tests.yml)
+[![Code quality status](https://github.com/digi-wolk/rss-feed-reader/actions/workflows/run-code-quality.yml/badge.svg?branch=master)](https://github.com/digi-wolk/rss-feed-reader/actions/workflows/run-code-quality.yml)
+[![goSec security status](https://github.com/digi-wolk/rss-feed-reader/actions/workflows/run-security-checks.yml/badge.svg?branch=master)](https://github.com/digi-wolk/rss-feed-reader/actions/workflows/run-security-checks.yml)
+
+[![License](https://img.shields.io/github/license/digi-wolk/rss-feed-reader?color=blue&label=License&style=flat-square)](https://github.com/digi-wolk/rss-feed-reader/blob/master/LICENSE.md)
+[![Last commit](https://img.shields.io/github/last-commit/digi-wolk/rss-feed-reader.svg?color=blue&style=flat-square)](https://github.com/digi-wolk/rss-feed-reader/commits/master)
+[![Contributors](https://img.shields.io/github/contributors/digi-wolk/rss-feed-reader?color=blue&style=flat-square)](https://github.com/digi-wolk/rss-feed-reader/graphs/contributors)
+
 </div>
 
 # About
