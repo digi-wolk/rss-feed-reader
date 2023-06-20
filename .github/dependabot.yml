@@ -1,0 +1,32 @@
+# https://docs.github.com/en/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  - package-ecosystem: "gomod"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "03:00"
+    labels:
+      - "dependabot"
+    open-pull-requests-limit: 5
+    assignees:
+      - "prazian"
+    reviewers:
+      - "prazian"
+    commit-message:
+      prefix: "[go.mod update] "
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    labels:
+      - "dependabot"
+    open-pull-requests-limit: 5
+    assignees:
+      - "prazian"
+    reviewers:
+      - "prazian"
+    commit-message:
+      prefix: "[github-actions update] "

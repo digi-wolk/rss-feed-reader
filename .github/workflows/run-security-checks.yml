@@ -1,0 +1,127 @@
+name: security-checks
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - '**.md'
+  push:
+    branches:
+      - master
+      - release/*
+    paths-ignore:
+      - '**.md'
+  schedule:
+    # Once a day at 2:00AM UTC
+    - cron: '0 2 * * *'
+
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+
+jobs:
+  run-go-sec-scanner:
+    name: Run GoSec Security Scanner
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GO111MODULE: on
+    steps:
+      - name: checkout
+        id: checkout
+        uses: actions/checkout@v3
+      - name: Download modules
+        run: |
+          go mod download
+      - name: Run GoSec Security Scanner
+        # TODO: Later remove -no-fail to fail and trigger on PR
+        run: |
+          docker run --rm -e GO111MODULE=on -v $(pwd):/code securego/gosec:latest -no-fail -exclude-dir=test/fixtures /code/... >> gosec-report.txt
+      - name: Upload report
+        uses: actions/upload-artifact@v3
+        with:
+          name: gosec-report
+          path: gosec-report.txt
+          if-no-files-found: error
+          retention-days: 7
+
+  snyk-security-check-golang:
+    name: Snyk check Golang
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: checkout
+        id: checkout
+        uses: actions/checkout@v3
+      - name: Scan Golang application with Snyk
+        uses: snyk/actions/golang@master
+        continue-on-error: true # To make sure that SARIF upload gets called
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --sarif-file-output=snyk.sarif
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk.sarif
+
+  snyk-security-check-docker:
+    name: Snyk check Docker
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: checkout
+        id: checkout
+        uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag test-image:latest
+      - name: Scan Docker with Snyk
+        uses: snyk/actions/docker@master
+        continue-on-error: true # To make sure that SARIF upload gets called
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          image: test-image:latest
+          args: --file=Dockerfile --exclude-base-image-vulns --detection-depth=1 --severity-threshold=medium --prune-repeated-subdependencies --exclude-app-vulns --sarif --sarif-file-output=snyk.sarif
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk.sarif
+
+  analyze-code-ql:
+    name: Analyze code with CodeQL
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'go' ]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ matrix.language }}
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: "/languages:${{ matrix.language }}"
+          upload: true
+
+  dependency-review:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v3
