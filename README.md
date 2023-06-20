@@ -44,6 +44,13 @@ export SLACK_API_TOKEN=xxxx
 # Slack channel is required if output is set to slack-comment
 go run cmd/rssread/rssread.go -rss-feed=https://aws.amazon.com/about-aws/whats-new/recent/feed/ -output=slack-comment -slack-channel=xxx
 ```
+# Check the latest version
+You can get the latest version number by:
+- Checkin the [CHANGELOG.md](CHANGELOG.md) file
+- Running this command:
+```bash
+git describe --abbrev=0 --tags --match "v*"
+```
 
 # Release a new version
 You can create a release by tagging the version as follows:
