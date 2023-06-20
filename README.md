@@ -3,7 +3,7 @@
 </div>
 
 # About
-Reads RSS feeds from config files.
+Reads RSS feeds.
 
 # Example usage
 Get one RSS feed:
