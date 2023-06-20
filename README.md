@@ -1,5 +1,6 @@
 <div align="center">
 <img src="assets/logo/logo-no-border.png" width="250">
+<br />
 
 [![Test status](https://github.com/digi-wolk/rss-feed-reader/actions/workflows/run-tests.yml/badge.svg?branch=master)](https://github.com/digi-wolk/rss-feed-reader/actions/workflows/run-tests.yml)
 [![Code quality status](https://github.com/digi-wolk/rss-feed-reader/actions/workflows/run-code-quality.yml/badge.svg?branch=master)](https://github.com/digi-wolk/rss-feed-reader/actions/workflows/run-code-quality.yml)
