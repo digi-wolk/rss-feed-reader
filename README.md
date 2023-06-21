@@ -76,6 +76,15 @@ You can pull a specific version by running the following command:
 docker pull prazian/rss-feed-reader:v1
 ```
 
+You can run the command like this:
+```bash
+docker run --rm -it -e GO111MODULE=on \
+  prazian/rss-feed-reader:v1 \
+  -rss-feed=https://aws.amazon.com/about-aws/whats-new/recent/feed/ \
+  -output=slack-comment \
+  -slack-channel=xxxx \
+  -hours-back=1
+```
 
 # Documentation
 - [Slack](docs/slack.md)
