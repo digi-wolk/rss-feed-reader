@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -73,4 +74,45 @@ func ReadRSSFeed(url string, hoursBack int) ([]Item, error) {
 		}
 	}
 	return result, nil
+}
+
+func FilterFeedItems(items []Item, filterWords []string, excludeWords []string, caseInsensitive bool) []Item {
+	// Filter title and description based on filterWords
+	// and exclude based on excludeWords
+	var result []Item
+	for _, item := range items {
+
+		if len(filterWords) == 0 {
+			if !containsAny(item.Title, excludeWords, caseInsensitive) &&
+				!containsAny(item.Description, excludeWords, caseInsensitive) {
+				result = append(result, item)
+			}
+			continue
+		}
+
+		if containsAny(item.Title, filterWords, caseInsensitive) ||
+			containsAny(item.Description, filterWords, caseInsensitive) {
+			if !containsAny(item.Title, excludeWords, caseInsensitive) &&
+				!containsAny(item.Description, excludeWords, caseInsensitive) {
+				result = append(result, item)
+			}
+		}
+	}
+	return result
+}
+
+// Helper function to check if a string contains any of the words in a slice
+func containsAny(s string, words []string, caseInsensitive bool) bool {
+	for _, word := range words {
+		if caseInsensitive {
+			if strings.Contains(strings.ToLower(s), strings.ToLower(word)) {
+				return true
+			}
+		} else {
+			if strings.Contains(s, word) {
+				return true
+			}
+		}
+	}
+	return false
 }

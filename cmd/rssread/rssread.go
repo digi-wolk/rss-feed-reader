@@ -34,6 +34,7 @@ func main() {
 			log.Printf("Error reading RSS feed from URL '%s': %s", url, err.Error())
 			continue
 		}
+		items = rss.FilterFeedItems(items, args.FilterWords, args.ExcludeWords, args.CaseInsensitive)
 
 		// Return JSON or text output based on args.OutPutType
 		if args.OutPutType == "json" {

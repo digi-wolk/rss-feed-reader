@@ -37,6 +37,28 @@ Verbose logs (suitable for debugging):
 ```bash
 go run cmd/rssread/rssread.go -rss-feed=xxxx -verbose
 ```
+Filter based on one or more keywords:
+```bash
+# One keyword
+go run cmd/rssread/rssread.go -rss-feed=xxxx -filter-words=glue
+# Multiple keywords
+go run cmd/rssread/rssread.go -rss-feed=xxxx -filter-words=glue,athena
+# Case insensitive
+go run cmd/rssread/rssread.go -rss-feed=xxxx -filter-words=glue,athena -case-insensitive
+```
+Exclude based on one or more keywords:
+```bash
+# One keyword
+go run cmd/rssread/rssread.go -rss-feed=xxxx -exclude-words=glue
+# Multiple keywords
+go run cmd/rssread/rssread.go -rss-feed=xxxx -exclude-words=glue,athena
+# Case insensitive
+go run cmd/rssread/rssread.go -rss-feed=xxxx -exclude-words=glue,athena -case-insensitive
+```
+Combine filter and exclude keywords:
+```bash
+go run cmd/rssread/rssread.go -rss-feed=xxxx -filter-words=athena -exclude-words=glue
+```
 Comment on Slack:
 ```bash
 # Slack Token should be set as environment variable
