@@ -51,14 +51,16 @@ func removeHTMLTags(htmlContent string) string {
 		return htmlContent // Return original content as fallback
 	}
 
-	var textContent string
+	textContent := ""
 	var extractText func(*html.Node)
 	extractText = func(n *html.Node) {
 		if n.Type == html.TextNode {
 			textContent += n.Data
 		}
 		for c := n.FirstChild; c != nil; c = c.NextSibling {
-			extractText(c)
+			if c != nil {
+				extractText(c)
+			}
 		}
 	}
 
