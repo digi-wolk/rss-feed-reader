@@ -17,6 +17,10 @@ func CommentOnSlack(items []rss.Item, slackChannel string) {
 		return
 	}
 	api := slack.New(slackApiToken)
+	if api == nil {
+		log.Fatal("Error: Slack API is nil!")
+		return
+	}
 
 	for _, item := range items {
 		messageBlocks := buildMessageBlocks(item)
