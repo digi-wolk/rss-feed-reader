@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/slack-go/slack v0.15.0
-	golang.org/x/net v0.30.0
+	golang.org/x/net v0.31.0
 )
 
 require github.com/gorilla/websocket v1.4.2 // indirect
