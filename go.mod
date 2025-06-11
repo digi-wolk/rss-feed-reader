@@ -5,8 +5,8 @@ go 1.23.0
 toolchain go1.24.1
 
 require (
-	github.com/slack-go/slack v0.17.0
 	golang.org/x/net v0.41.0
+	github.com/slack-go/slack v0.17.1
 )
 
 require github.com/gorilla/websocket v1.5.3 // indirect
