@@ -9,3 +9,22 @@ build-linux-amd64:
 
 build-linux-arm64:
 	CGO_ENABLED=$(CGO_ENABLED) GOOS=linux GOARCH=arm64 go build -ldflags=$(BUILD_FLAGS) -o build/$(BIN) ./cmd/rssread/
+
+# Update all dependencies to their latest versions
+update-deps:
+	go get -u ./...
+	go mod tidy
+
+# Update a specific dependency to its latest version
+# Usage: make update-pkg PKG=github.com/example/package
+update-pkg:
+	@if [ -z "$(PKG)" ]; then \
+		echo "Error: PKG is not set. Usage: make update-pkg PKG=github.com/example/package"; \
+		exit 1; \
+	fi
+	go get -u $(PKG)
+	go mod tidy
+
+# List all dependencies and their versions
+list-deps:
+	go list -m all

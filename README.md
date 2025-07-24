@@ -122,3 +122,29 @@ docker run --rm -it -e GO111MODULE=on \
 
 # Documentation
 - [Slack](docs/slack.md)
+
+# Dependency Management
+To manage dependencies in this project, you can use the following Makefile targets:
+
+## List all dependencies
+To list all dependencies and their versions:
+```bash
+make list-deps
+```
+
+## Update all dependencies
+To update all dependencies to their latest versions:
+```bash
+make update-deps
+```
+
+## Update a specific dependency
+To update a specific dependency to its latest version:
+```bash
+make update-pkg PKG=github.com/example/package
+```
+
+For example, to update the Slack package:
+```bash
+make update-pkg PKG=github.com/slack-go/slack
+```
